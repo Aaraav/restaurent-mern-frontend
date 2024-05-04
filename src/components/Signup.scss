@@ -1,0 +1,52 @@
+.signup {
+    position: relative; /* Ensure proper positioning for the pseudo-element */
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+}
+.signup::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://cdn.dribbble.com/userupload/11865738/file/original-7423a4183d387d193cc564e08d4a4b46.png?resize=1504x1128");
+    background-position: center;
+    background-size: cover;
+    opacity: 0.5; /* Opacity of the overlay */
+    z-index: -1; /* Place the overlay behind other content */
+}
+.signup h2{
+margin-top: 10%;
+font-size: 50px;
+color: #FA7727;
+
+}
+.signup input{
+    width: 20%;
+    margin-left: 0%;
+    padding: 7px;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    margin-top: 1%;
+    box-shadow:  #FA7727 10px 10px 0px 0px;
+    
+
+}
+.signup button{
+    width: 20%;
+    margin-top: 5%;
+    margin-left: 0%;
+    background-color: #FA7727;
+    padding: 20px;
+    border-radius: 30px;
+}
+.signup button:hover{
+    background-color: green;
+}

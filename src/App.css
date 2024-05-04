@@ -1,5 +1,8 @@
+
 .App {
   text-align: center;
+  overflow: hidden;
+  background-color: black;
 }
 
 .App-logo {
@@ -35,4 +38,25 @@
   to {
     transform: rotate(360deg);
   }
+}
+.restaurant ul {
+  position: fixed;
+  z-index: 9999999;
+}
+.cart{
+  color: white;
+  width: 100vw;
+  height: auto;
+  list-style: none;
+  display: block;
+}
+
+.cart-text{
+  color: white;
+  position: absolute;
+  z-index: 10000000;
+}
+
+.cart li{
+  list-style: none;
 }

@@ -1,0 +1,81 @@
+.restaurant {
+    width: 100vw;
+    height: 20vh;
+
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    
+}
+
+.restaurant img {
+    display: none;
+}
+
+.restaurant h2 {
+    margin-left: 20px;
+    color: #E21837;
+    font-weight: bold;
+    font-size: 2.0rem;
+    text-transform: capitalize;
+}
+
+.restaurant ul {
+   
+   
+
+    margin-left: 34%;
+    display: flex;
+    background-color: #E21837;
+    border-radius: 20px;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.restaurant ul li {
+    list-style: none;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: white;
+    text-decoration: none;
+   
+}
+
+.restaurant ul li > button {
+    border: none;
+    background-color: #E21837;
+    color: white;
+}
+
+.restaurant p {
+    margin-right: 7%;
+}
+
+.restaurant span {
+    color: #E21837;
+    font-weight: bold;
+}
+
+
+
+@media (max-width: 500px) {
+    .restaurant {
+        width: 100vw;
+    }
+    .restaurant img {
+        display: block;
+        background-color: red;
+        margin-left: 25%;
+        margin-top: 2%;
+        width: 40px; /* Adjust the width as needed */
+        height: 40px; /* Maintain aspect ratio */
+    }
+    .restaurant h2 {
+        font-size: 1rem;
+    }
+    .restaurant ul {
+        display: none;
+        margin-left: 50%;
+        margin-top: 0%;
+    }
+}
