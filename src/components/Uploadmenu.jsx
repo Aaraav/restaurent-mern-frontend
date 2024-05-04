@@ -77,7 +77,7 @@ export default function Uploadmenu() {
         const username = localStorage.getItem('username');
 
         try {
-            const response = await axios.post('http://localhost:9000/set-status', {
+            const response = await axios.post('https://restaurant-backend-q89z.onrender.com/set-status', {
                 status: globalStatus,
                 username,
                 id: localStorage.getItem('orderid'),
@@ -157,7 +157,7 @@ export default function Uploadmenu() {
                     {uploadedFoodData && uploadedFoodData.length > 0 ? (
                         uploadedFoodData.map((foodItem, index) => (
                             <div key={index}>
-                                <img src={`http://localhost:9000/images/${foodItem.image}`} alt='Uploaded Food' />
+                                <img src={`https://restaurant-backend-q89z.onrender.com/${foodItem.image}`} alt='Uploaded Food' />
                                 <p>{foodItem.description}</p>
                                 <p>₹{foodItem.price}</p>
                                 <div className='box'>

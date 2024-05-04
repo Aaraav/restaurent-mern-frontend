@@ -152,7 +152,7 @@ const navigate=useNavigate();
                     }}
                     onClick={async()=>{alert('thanks for ordering');
                     const username = localStorage.getItem('username');
-                   const response= await axios.post('http://localhost:9000/setorder', {
+                   const response= await axios.post('https://restaurant-backend-q89z.onrender.com/setorder', {
                         foodname,
                         username,
                     }, {

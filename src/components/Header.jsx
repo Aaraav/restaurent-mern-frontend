@@ -16,7 +16,7 @@ export default function Header() {
                     navigate('/login');
                     return;
                 }
-                const response = await axios.get('http://localhost:9000/user', {
+                const response = await axios.get('https://restaurant-backend-q89z.onrender.com/user', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

@@ -21,7 +21,7 @@ export default function Tracking() {
         };
 
         const fetchOrder = async () => {
-            const response = await axios.get(`http://localhost:9000/getorder/${id}`);
+            const response = await axios.get(`https://restaurant-backend-q89z.onrender.com/getorder/${id}`);
             setStatus(response.data.status);
             // Set visibility of reason based on status
             setVisible(response.data.status === 'Cancelled');

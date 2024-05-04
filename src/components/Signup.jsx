@@ -12,7 +12,7 @@ function Signup() {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post('http://localhost:9000/signup', {
+            const response = await axios.post('https://restaurant-backend-q89z.onrender.com/signup', {
                 username,
                 email,
                 password

@@ -9,7 +9,7 @@ export default function AllOrder() {
     const fetchOrders = async () => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.get('http://localhost:9000/getorder', {
+            const response = await axios.get('https://restaurant-backend-q89z.onrender.com/getorder', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
