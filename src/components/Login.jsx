@@ -13,7 +13,7 @@ export default function Login() {
         setLoading(true); // Start loading
 
         try {
-            const response = await axios.post('https://restaurant-backend-q89z.onrender.com/login', {
+            const response = await axios.post('https://restaurant-backend-2-mad1.onrender.com/login', {
                 username: username,
                 password: password
             });

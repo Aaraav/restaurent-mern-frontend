@@ -15,8 +15,8 @@ function GoogleMap() {
             title: 'My location',
         },
         {
-            lat: 28.6217,
-            lng: 77.2155,
+            lat: 28.631451,
+            lng: 77.216667,
             title: 'restaurent Location',
         },
         // Add more positions as needed

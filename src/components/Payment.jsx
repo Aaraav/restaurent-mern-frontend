@@ -1,6 +1,8 @@
 import React, { useState,useContext } from 'react';
 import { UserContext } from '../UserContextProvider';
 import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
+ 
 import axios from 'axios';
 import Header from './Header';
 export default function Payment() {
@@ -9,6 +11,7 @@ export default function Payment() {
     const [expiryDate, setExpiryDate] = useState('');
     const [lat,setlat]= useState('');
     const [long,setlong]= useState('');
+  
 
     const [cvv, setCvv] = useState('');
     const {  total,foodname } = useContext(UserContext);
@@ -21,6 +24,9 @@ const navigate=useNavigate();
         e.preventDefault();
         // Handle form submission here
         console.log({ cardNumber, cardHolder, expiryDate, cvv });
+
+
+
     };
 
     return (
@@ -152,7 +158,7 @@ const navigate=useNavigate();
                     }}
                     onClick={async()=>{alert('thanks for ordering');
                     const username = localStorage.getItem('username');
-                   const response= await axios.post('https://restaurant-backend-q89z.onrender.com/setorder', {
+                   const response= await axios.post('https://restaurant-backend-2-mad1.onrender.com/setorder', {
                         foodname,
                         username,
                     }, {

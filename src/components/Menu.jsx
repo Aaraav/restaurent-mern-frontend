@@ -15,7 +15,7 @@ export default function Menu() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('https://restaurant-backend-q89z.onrender.com/uploadfood');
+                const response = await axios.get('https://restaurant-backend-2-mad1.onrender.com/uploadfood');
                 setUploadedFoodData(response.data);
                 const initialQuantityMap = {};
                 response.data.forEach((foodItem) => {
@@ -82,7 +82,7 @@ export default function Menu() {
                 {uploadedFoodData && uploadedFoodData.length > 0 ? (
                     uploadedFoodData.map((foodItem) => (
                         <div key={foodItem._id}>
-                            <img src={`https://restaurant-backend-q89z.onrender.com/${foodItem.image}`} alt='Uploaded Food' />
+                            <img src={`${foodItem.url}`} alt='Uploaded Food' />
                             <h1>{foodItem.description}</h1>
                             <h1>₹{foodItem.price}</h1>
                             <div className='box'>
@@ -142,7 +142,7 @@ export default function Menu() {
                                 //     },
                                 // });
 
-                                const response = await axios.get('https://restaurant-backend-q89z.onrender.com/sendmail', {
+                                const response = await axios.get('https://restaurant-backend-2-mad1.onrender.com/sendmail', {
                                     headers: {
                                         Authorization: `Bearer ${token}`,
                                     },
