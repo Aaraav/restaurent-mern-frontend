@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import GoogleMap from './GoogleMap';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
-
 export default function Tracking() {
     const lat = localStorage.getItem('Latitude:');
     const long = localStorage.getItem('Longitude:');
@@ -12,49 +11,85 @@ export default function Tracking() {
     const [visible, setVisible] = useState(false);
     const id = localStorage.getItem('orderid');
     const [reason, setReason] = useState(localStorage.getItem('reason') || '');
+    // https://restaurant-backend-4-yqs6.onrender.com
     const navigate = useNavigate();
-    const foodname = localStorage.getItem('foodname');
-    const socketRef = useRef(null);
+    // const socket = io('http://localhost:1000', {transports: ['websocket']});
+const foodname=localStorage.getItem('foodname');
+    //     socket.on("connect", (socket) => {
+    //       console.log("Connected to server");
+    //       // console.log(socket.id);
+    //       // socket.emit('foodname', { username: localStorage.getItem('username'), foodname });
 
-    useEffect(() => {
-        // Create a socket connection and store it in a ref
-        if (!socketRef.current) {
-            socketRef.current = io('http://localhost:1000', { transports: ['websocket'] });
-            
-            // Add connection event listener
-            socketRef.current.on('connect', () => {
-                console.log('Connected to server');
-                console.log('Socket ID:', socketRef.current.id);
-            });
+         
+    //     });
+      
+    //     socket.on('message', (message) => {
+    //       socket.emit('foodname', { username: localStorage.getItem('username'), foodname ,name:'aar',orderid:localStorage.getItem('orderid')});
+    //     });
 
-            // Add message event listener
-            socketRef.current.on('message', () => {
-                socketRef.current.emit('foodname', {
-                    username: localStorage.getItem('username'),
-                    foodname,
-                    name: 'aar',
-                    orderid: localStorage.getItem('orderid')
-                });
-            });
+    //     // if(socket){
+    //     //     console.log('socket',socket.id);
+    //     // socket.on("stat", (data) => {
+    //     //     console.log('Received data from server:', data);
+    //     //     console.log('Received globalStatus:', data.globalStatus);
+    //     //     setStatus(data.globalStatus);
+    //     // });}
+        
+        
+    
+      
+       
+        
+        
+    //     // socket.on('connect_error', (error) => {
+    //     //   console.error("Error connecting to server:", error);
+    //     // });
+      
+    //     return () => {
+    //       socket.disconnect();
+    //     };
+    //   }, []);
+      useEffect(() => {
 
-            // Add stat event listener
-            socketRef.current.on('stat', (data) => {
-                console.log('Received data from server:', data);
-                console.log('Received globalStatus:', data.globalStatus);
-                setStatus(data.globalStatus);
-            });
-        }
-
-        // Clean up the socket connection and event listeners when the component unmounts
+        const socket = io('https://restaurant-backend-4-yqs6.onrender.com', { transports: ['websocket'] });
+    console.log("socket",socket.id);
+        socket.on("connect", () => {
+            console.log("Connected to server");
+            console.log("Socket ID:", socket.id);  // Log the socket ID
+            // You can perform additional actions here once connected
+        });
+        socket.on('message', (message) => {
+            socket.emit('foodname', { username: localStorage.getItem('username'), foodname ,name:'aar',orderid:localStorage.getItem('orderid')});
+          });
+    
+        socket.on('stat', (data) => {
+            console.log('Received data from server:', data);
+            console.log('Received globalStatus:', data.globalStatus);
+            setStatus(data.globalStatus);
+            setReason(data.reason || "");
+        });
+    
+        // Clean up the event listener when the component unmounts
         return () => {
-            if (socketRef.current) {
-                socketRef.current.disconnect();
-                socketRef.current.off('connect');
-                socketRef.current.off('stat');
-                socketRef.current.off('message');
-            }
+            socket.disconnect();
+            socket.off("connect");
+            socket.off("stat");
         };
-    }, [foodname]);
+
+
+    }, []);
+    
+    //   useEffect(() => {
+    //     socket.on("stat", ({ globalStatus, username, orderid }) => {
+    //         console.log('Received status update:', globalStatus);
+    //         // Update the status state with the received globalStatus
+    //         setStatus(globalStatus);
+    //     });
+
+    //     return () => {
+    //         socket.off('stat');
+    //     };
+    // }, [socket]);
 
     useEffect(() => {
         const fetch = async () => {
@@ -66,31 +101,38 @@ export default function Tracking() {
         const fetchOrder = async () => {
             const response = await axios.get(`https://restaurant-backend-2-mad1.onrender.com/getorder/${id}`);
             setStatus(response.data.status);
+            // Set visibility of reason based on status
             setVisible(response.data.status === 'Cancelled');
         };
 
         fetchOrder();
 
-        if (status === 'Fulfilled') {
+        if (status === ('Fulfilled')) {
             alert('Your order is fulfilled');
-            setTimeout(() => navigate('/'), 3000);
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
         }
 
-        if (status === 'Cancelled') {
-            alert('Your order is Cancelled');
-            setTimeout(() => navigate('/menu'), 3000);
-        }
-        
+        if (status === ('Cancelled')) {
+          alert('Your order is Cancelled');
+          setTimeout(() => {
+              navigate('/menu');
+          }, 3000);
+      }
         fetch();
     }, [id, lat, long, navigate, status]);
 
     return (
         <div style={{ backgroundColor: 'black', width: '100vw', height: '100vh' }}>
             <h1 style={{ color: 'white' }}>{address}</h1>
+
             <GoogleMap />
+
             <h1 style={{ color: 'white', marginLeft: '55vw', position: 'absolute', top: '40%' }}>
                 Status of your order is {status}
             </h1>
+
             {visible && (
                 <h1 style={{ color: 'red', marginLeft: '50vw', position: 'absolute', top: '50%' }}>
                     Reason for cancellation: {reason}

@@ -22,6 +22,10 @@ const navigate=useNavigate();
       
        
     };
+
+    if(otp!==sendotp){
+      alert("please write correct otp");
+    }
     if(!sendotp){
       navigate('/signup');
    }

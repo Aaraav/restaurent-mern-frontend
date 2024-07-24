@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef,useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'; // Import your global styles
 import Signup from './components/Signup';
@@ -13,10 +13,14 @@ import Payment from './components/Payment';
 import Emailverify from './components/Emailverify';
 import Tracking from './components/Tracking';
 import Allorder from './components/Allorder';
+import Contact from './components/Contact';
+import Userslist from './components/Userslist';
+import axios from 'axios';
 function App() {
   const scrollRef = useRef(null);
 
   useEffect(() => {
+
     // const scroll = new LocomotiveScroll({
     //   el: scrollRef.current,
     //   smooth: true, // Enable smooth scrolling
@@ -30,6 +34,7 @@ function App() {
     // };
   }, []);
 
+  
   return (
     <Router>
       <div
@@ -51,6 +56,9 @@ function App() {
   <Route path='/email' element={<Emailverify/>}/>
   <Route path='/tracking' element={<Tracking/>}/>
 <Route path='/allorders' element={<Allorder/>}/>
+<Route path='/contact' element={<Contact/>}/>
+{/* <Route path="/contact/:chatPartners" component={<Contact/>} /> */}
+<Route path='/list' element={<Userslist/>}/>
 
   {/* Add more routes as needed */}
   {/* For example: <Route path="/dashboard" element={<Dashboard />} /> */}

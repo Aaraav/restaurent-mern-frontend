@@ -56,10 +56,16 @@ export default function Header() {
                     <Link to="/" style={{ textDecoration: 'none' }}><li>Home</li></Link>
                     <Link to="/menu" style={{ textDecoration: 'none' }}><li>Menu</li></Link>
                     <Link to="/allorders" style={{ textDecoration: 'none' }}><li>Orders</li></Link>
-                    
+
+                    {username !== 'aar' && (
+                    <Link to='/contact' style={{ textDecoration: 'none' }}><li>Contact Us</li></Link>
+                )}
                     {/* Conditionally render the "Uploadmenu" link based on the username */}
                     {username === 'aar' && (
                         <Link to="/uploadmenu" style={{ textDecoration: 'none' }}><li>Uploadmenu</li></Link>
+                    )}
+                     {username === 'aar' && (
+                        <Link to="/list" style={{ textDecoration: 'none' }}><li>userslist</li></Link>
                     )}
                     
                     <li>

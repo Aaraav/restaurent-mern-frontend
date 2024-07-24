@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import './Uploadmenu.scss';
-
+import './Uploadmenu.scss'
 export default function Uploadmenu() {
   const [file, setFile] = useState(null);
   const [aboutFood, setAboutFood] = useState('');
@@ -14,59 +13,52 @@ export default function Uploadmenu() {
   const [visible, setVisible] = useState(false);
   const [reason, setReason] = useState('');
   const [order, setOrder] = useState([]);
-  const [name,setname]=useState();
-  const [soc,setsoc]=useState();
+  const [name, setName] = useState();
+  const [soc, setSoc] = useState();
   const [clients, setClients] = useState({});
+  // https://restaurant-backend-4-yqs6.onrender.com
   const socket = io('https://restaurant-backend-4-yqs6.onrender.com', { transports: ['websocket'] });
 
   useEffect(() => {
     socket.on('connect', () => {
-      console.log('Connected to server with',socket.id);
-      // Emit 'foodname' event to server if needed
+      console.log('Connected to server with', socket.id);
     });
 
     socket.on('message', () => {
-      socket.emit('foodname', { username: localStorage.getItem('username'), foodname, name: 'aar', orderid: localStorage.getItem('orderid') });
+      socket.emit('foodname', {
+        username: localStorage.getItem('username'),
+        foodname,
+        name: 'aar',
+        orderid: localStorage.getItem('orderid')
+      });
     });
 
-    socket.on('food', (data) => {
-        // Check if data.foodname is a valid JSON string
-        setOrder(data.orderid);
-        setname(data.username);
-        setsoc(data.id);
-        if (data.foodname) {
-            try {
-                // Parse the JSON-encoded string in data.foodname to a JavaScript array
-                const parsedFoodname = JSON.parse(data.foodname);
-    
-                // Update the state with the parsed data
-                setClients({
-                    ...data,
-                    foodname: parsedFoodname,
-                });
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-                // Handle the error (e.g., set clients.foodname to an empty array)
-                setClients({
-                    ...data,
-                    foodname: [],
-                });
-            }
-        } else {
-            // If data.foodname is empty, set clients.foodname to an empty array
-            setClients({
-                ...data,
-                foodname: [],
-            });
+    socket.on('food', data => {
+      setOrder(data.orderid);
+      setName(data.username);
+      setSoc(data.id);
+      if (data.foodname) {
+        try {
+          const parsedFoodname = JSON.parse(data.foodname);
+          setClients({
+            ...data,
+            foodname: parsedFoodname,
+          });
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+          setClients({
+            ...data,
+            foodname: [],
+          });
         }
-    
-        // Store the username in localStorage
-        localStorage.setItem('clientsUsername', data.username);
-    
-        // Emit the status to the server
-       
+      } else {
+        setClients({
+          ...data,
+          foodname: [],
+        });
+      }
+      localStorage.setItem('clientsUsername', data.username);
     });
-    
 
     return () => {
       socket.disconnect();
@@ -75,8 +67,6 @@ export default function Uploadmenu() {
 
   useEffect(() => {
     fetchData();
-
-    // Toggle visibility of input based on global status
     setVisible(globalStatus === 'Cancelled');
     localStorage.setItem('reason', reason);
   }, [globalStatus, reason]);
@@ -85,12 +75,12 @@ export default function Uploadmenu() {
   console.log('clients.foodname:', clients.foodname);
 
   // Function to handle file change
-  const handleFileChange = (event) => {
+  const handleFileChange = event => {
     setFile(event.target.files[0]);
   };
 
   // Function to handle form submission
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     try {
       const formData = new FormData();
@@ -125,7 +115,7 @@ export default function Uploadmenu() {
   };
 
   // Function to handle global status change
-  const handleGlobalStatusChange = (event) => {
+  const handleGlobalStatusChange = event => {
     const newStatus = event.target.value;
     setGlobalStatus(newStatus);
 
@@ -148,13 +138,14 @@ export default function Uploadmenu() {
 
       console.log('Order status saved:', response.data);
 
-       socket.emit('status', {
-            username: name,
-            globalStatus,
-            name: 'aar',
-            orderid: order,
-            id:soc
-        });
+      socket.emit('status', {
+        username: name,
+        globalStatus,
+        name: 'aar',
+        orderid: order,
+        id: soc,
+        reason
+      });
 
       // If the global status is fulfilled, clear the table
       setFoodname([]);
@@ -168,95 +159,167 @@ export default function Uploadmenu() {
   const renderClients = () => {
     console.log('Rendering clients.foodname:', clients.foodname);
     
-    // Check if clients array is defined and is an array
     if (clients && Array.isArray(clients.foodname)) {
-        return clients.foodname.map((client, index) => (
-            <tr key={index}>
-                <td>{client.description}</td>
-                <td style={{ color: 'white' }}>₹{client.price}</td>
-                <td style={{ color: 'white' }}>{client.quantity}</td>
-            </tr>
-        ));
+      return clients.foodname.map((client, index) => (
+        <tr key={index}>
+          <td style={{ border: '1px solid red', padding: '10px', color: 'white' }}>{client.description}</td>
+          <td style={{ border: '1px solid red', padding: '10px', color: 'white' }}>₹{client.price}</td>
+          <td style={{ border: '1px solid red', padding: '10px', color: 'white' }}>{client.quantity}</td>
+        </tr>
+      ));
     } else {
-        return null;
+      return null;
     }
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: 'black', color: 'white', padding: '20px', minHeight: '100vh' }}>
       <h1>Ordered Food Items</h1>
-      <table style={{ color: 'white' }}>
+      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
         <thead>
           <tr>
-            <th>Food Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
+            <th style={{ border: '1px solid red', padding: '10px', color: 'white' }}>Food Name</th>
+            <th style={{ border: '1px solid red', padding: '10px', color: 'white' }}>Price</th>
+            <th style={{ border: '1px solid red', padding: '10px', color: 'white' }}>Quantity</th>
           </tr>
         </thead>
-        <tbody style={{ color: 'white' }}>
+        <tbody>
           {renderClients()}
         </tbody>
       </table>
 
-      <div>
-        <label>Status:</label>
-        <select value={globalStatus} onChange={handleGlobalStatusChange}>
-          <option value='Pending'>Pending</option>
-          <option value='Fulfilled'>Fulfilled</option>
-          <option value='Cancelled'>Cancelled</option>
+      <div style={{ marginTop: '20px' }}>
+        <label style={{ color: 'white' }}>Status:</label>
+        <select
+          value={globalStatus}
+          onChange={handleGlobalStatusChange}
+          style={{
+            backgroundColor: 'black',
+            color: 'white',
+            border: '1px solid red',
+            padding: '5px 10px',
+            marginRight: '10px',
+          }}
+        >
+          <option value="Pending">Pending</option>
+          <option value="Fulfilled">Fulfilled</option>
+          <option value="Cancelled">Cancelled</option>
         </select>
-        <button onClick={handleSave}>Save</button>
+        <button
+          onClick={handleSave}
+          style={{
+            backgroundColor: '#f56565', // Tailwind red-500
+            color: 'white',
+            padding: '10px 20px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            border: 'none',
+          }}
+          onMouseEnter={e => (e.target.style.backgroundColor = '#e53e3e')} // Tailwind red-600
+          onMouseLeave={e => (e.target.style.backgroundColor = '#f56565')}
+        >
+          Save
+        </button>
       </div>
 
       {visible && (
-        <div>
-          <label>Reason for cancelling:</label>
+        <div style={{ marginTop: '20px' }}>
+          <label style={{ color: 'white' }}>Reason for cancelling:</label>
           <input
-            type='text'
-            placeholder='Reason for cancelling'
+            type="text"
+            placeholder="Reason for cancelling"
             value={reason}
             onChange={e => setReason(e.target.value)}
+            style={{
+              backgroundColor: 'black',
+              color: 'white',
+              border: '1px solid red',
+              padding: '5px 10px',
+            }}
           />
         </div>
       )}
 
-      <div className='uploadmenu'>
-        <form onSubmit={handleSubmit} encType='multipart/form-data'>
-          <input type='file' name='file' onChange={handleFileChange} />
+      <div className="uploadmenu">
+        <form onSubmit={handleSubmit} encType="multipart/form-data" style={{ marginTop: '20px' }}>
           <input
-            type='text'
-            placeholder='About food'
+            type="file"
+            name="file"
+            onChange={handleFileChange}
+            style={{
+              color: 'white',
+              backgroundColor: 'black',
+              border: '1px solid red',
+              padding: '5px 10px',
+              marginBottom: '10px',
+            }}
+          />
+          <input
+            type="text"
+            placeholder="About food"
             value={aboutFood}
             onChange={e => setAboutFood(e.target.value)}
+            style={{
+              backgroundColor: 'black',
+              color: 'white',
+              border: '1px solid red',
+              padding: '5px 10px',
+              marginBottom: '10px',
+            }}
           />
           <input
-            type='number'
-            placeholder='Price'
+            type="number"
+            placeholder="Price"
             value={price}
             onChange={e => setPrice(e.target.value)}
+            style={{
+              backgroundColor: 'black',
+              color: 'white',
+              border: '1px solid red',
+              padding: '5px 10px',
+              marginBottom: '10px',
+            }}
           />
-          <button type='submit'>Upload</button>
+          <button
+            type="submit"
+            style={{
+              backgroundColor: '#f56565', // Tailwind red-500
+              color: 'white',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              border: 'none',
+            }}
+            onMouseEnter={e => (e.target.style.backgroundColor = '#e53e3e')} // Tailwind red-600
+            onMouseLeave={e => (e.target.style.backgroundColor = '#f56565')}
+          >
+            Upload
+          </button>
         </form>
 
         <div className='image-container'>
-          {uploadedFoodData && uploadedFoodData.length > 0 ? (
-            uploadedFoodData.map((foodItem, index) => (
-              <div key={index}>
-                <img src={`${foodItem.url}`} alt='Uploaded Food' />
-                <p>{foodItem.description}</p>
-                <p>₹{foodItem.price}</p>
-                <div className='box'>
-                  <button onClick={() => setQuantity(Math.max(0, quantity - 1))}>-</button>
-                  <p>{quantity}</p>
-                  <button onClick={() => setQuantity(quantity + 1)}>+</button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>No uploaded food data available</p>
-          )}
-        </div>
+{uploadedFoodData && uploadedFoodData.length > 0 ? (
+  uploadedFoodData.map((foodItem, index) => (
+    <div key={index}>
+      <img src={`${foodItem.url}`} alt='Uploaded Food' />
+      <p>{foodItem.description}</p>
+      <p>₹{foodItem.price}</p>
+      <div className='box'>
+        <button onClick={() => setQuantity(Math.max(0, quantity - 1))}>-</button>
+        <p>{quantity}</p>
+        <button onClick={() => setQuantity(quantity + 1)}>+</button>
+      </div>
+    </div>
+  ))
+) : (
+  <p>No uploaded food data available</p>
+)}
+</div>
       </div>
     </div>
   );
 }
+
+
+
+
