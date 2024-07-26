@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Signup.scss';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Spinner } from '@nextui-org/react';
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -9,9 +10,15 @@ export default function Login() {
     const [loading, setLoading] = useState(false); // Loading state
     const navigate = useNavigate();
 
+    useEffect(()=>{
+        const token = localStorage.getItem('token');
+        if(token){
+            navigate('/'); // Navigate to / route on successful login
+        }
+    })
     const handleSubmit = async () => {
         setLoading(true); // Start loading
-
+       
         try {
             const response = await axios.post('https://restaurant-backend-2-mad1.onrender.com/login', {
                 username: username,
@@ -22,8 +29,7 @@ export default function Login() {
                 // Store the token in localStorage for future use (optional)
                 localStorage.setItem('token', response.data.token);
 
-                // Redirect to '/' route upon successful login
-                navigate('/');
+                navigate('/'); // Navigate to / route on successful login
             }
         } catch (error) {
             console.error('Error sending data:', error);
@@ -42,6 +48,7 @@ export default function Login() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder='username'
+                    className='text-2xl'
                 />
 
                 <input
@@ -53,7 +60,7 @@ export default function Login() {
 
                 {/* Show the loader while loading */}
                 {loading ? (
-                    <div className='loader'>Loading...</div> // Customize the loader style in your CSS
+                    <div style={{position:'absolute', top:'20%',width:'100px'}}><Spinner/></div> // Customize the loader style in your CSS
                 ) : (
                     <button type='submit' onClick={handleSubmit}>Submit</button>
                 )}

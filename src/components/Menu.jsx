@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../UserContextProvider';
 import { useNavigate } from 'react-router-dom';
-import Cart from '../Cart';
 import Header from './Header';
 
 export default function Menu() {
@@ -65,7 +64,7 @@ export default function Menu() {
     };
 
     // Toggle cart visibility
-    const [isCartVisible, setIsCartVisible] = useState(true);
+    const [isCartVisible, setIsCartVisible] = useState(false);
 
     const toggleCartVisibility = () => {
         setIsCartVisible(!isCartVisible);
@@ -74,91 +73,122 @@ export default function Menu() {
     // Render component
     return (
         <>
-        <Header/>
-        <div>
-            <div className='image-container'>
-                <button className='cart-text' onClick={toggleCartVisibility}>Cart</button>
-
-                {uploadedFoodData && uploadedFoodData.length > 0 ? (
-                    uploadedFoodData.map((foodItem) => (
-                        <div key={foodItem._id}>
-                            <img src={`${foodItem.url}`} alt='Uploaded Food' />
-                            <h1>{foodItem.description}</h1>
-                            <h1>₹{foodItem.price}</h1>
-                            <div className='box'>
-                                <button onClick={() => handleDecrement(foodItem._id)}>minus</button>
-                                <p>{quantityMap[foodItem._id]}</p>
-                                <button onClick={() => handleIncrement(foodItem._id)}>plus</button>
-                            </div>
-                            <button id='x' onClick={() => addToCart(foodItem.description, foodItem.price, quantityMap[foodItem._id])}>
-                                Add to cart
-                            </button>
-                        </div>
-                    ))
-                ) : (
-                    <p>No uploaded food data available</p>
-                )}
-            </div>
-
-            <div className='cart' style={{ display: isCartVisible ? 'block' : 'none' }}>
-                <div style={{ fontFamily: 'Arial, sans-serif', textAlign: 'center' }}>
-                    <h1 style={{ color: 'red', borderBottom: '2px solid red', paddingBottom: '10px' }}>CART</h1>
-                    <ul style={{ listStyleType: 'none', padding: 0, backgroundColor: 'white' }}>
-                        {foodname.map((item, index) => (
-                            <li key={index} style={{ marginBottom: '10px', borderBottom: '1px solid #ccc', paddingBottom: '10px', color: 'red' }}>
-                                <h3 style={{ margin: 0 }}>{item.description}</h3>
-                                <p style={{ margin: 0 }}>Total: ₹{item.price * item.quantity}</p>
-                            </li>
-                        ))}
-                    </ul>
-
-                    <h1 style={{ marginTop: '20px' }}>Total: ₹{calculateAndSetTotal()}</h1>
+            <Header />
+            <div>
+                <div className='image-container'>
                     <button
-                        id='btn'
                         style={{
-                            backgroundColor: 'red',
+                            position: 'fixed',
+                            top: '38px',
+                            right: '20px',
+                            left: '74%',
+                            backgroundColor: '#E21837',
                             color: 'white',
-                            padding: '10px 20px',
-                            borderRadius: '5px',
+                            borderRadius: '30px',
                             border: 'none',
-                            fontSize: '16px',
-                            fontWeight: 'bold',
                             cursor: 'pointer',
-                            marginTop: '20px',
+                            fontSize: '16px',
+                            zIndex: 1001,
                         }}
-                        onClick={async () => {
-                            try {
-                                navigate('/confirmation');
-                                const token = localStorage.getItem('token');
-                                localStorage.setItem('foodname', JSON.stringify(foodname));
-
-                                // const username = localStorage.getItem('username');
-                                // await axios.post('http://localhost:9000/setorder', {
-                                //     foodname,
-                                //     username,
-                                // }, {
-                                //     headers: {
-                                //         'Content-Type': 'application/json',
-                                //     },
-                                // });
-
-                                const response = await axios.get('https://restaurant-backend-2-mad1.onrender.com/sendmail', {
-                                    headers: {
-                                        Authorization: `Bearer ${token}`,
-                                    },
-                                });
-
-                                localStorage.setItem('otp', JSON.stringify(response.data));
-                            } catch (error) {
-                                console.error('Error:', error);
-                            }
-                        }}
+                        className='cart-text'
+                        onClick={toggleCartVisibility}
                     >
-                        Confirm Order
+                        Cart
                     </button>
+                    {uploadedFoodData && uploadedFoodData.length > 0 ? (
+                        uploadedFoodData.map((foodItem) => (
+                            <div key={foodItem._id}>
+                                <img src={`${foodItem.url}`} alt='Uploaded Food' />
+                                <h1>{foodItem.description}</h1>
+                                <h1>₹{foodItem.price}</h1>
+                                <div className='box'>
+                                    <button onClick={() => handleDecrement(foodItem._id)}>--</button>
+                                    <p>{quantityMap[foodItem._id]}</p>
+                                    <button onClick={() => handleIncrement(foodItem._id)}>+</button>
+                                </div>
+                                <button id='x' onClick={() => addToCart(foodItem.description, foodItem.price, quantityMap[foodItem._id])}>
+                                    Add to cart
+                                </button>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No uploaded food data available</p>
+                    )}
+                </div>
+
+                <div className='cart' style={{
+                    display: isCartVisible ? 'block' : 'none',
+                    position: 'fixed',
+                    top: 70,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    zIndex: 1000,
+                    padding: '20px',
+                    overflowY: 'auto',
+                }}>
+                    <div style={{
+                        backgroundColor: '#fff',
+                        borderRadius: '5px',
+                        padding: '20px',
+                        margin: 'auto',
+                        maxWidth: '800px',
+                    }}>
+                        <h1 style={{ color: 'red', borderBottom: '2px solid red', paddingBottom: '10px', textAlign: 'center', fontWeight: 'bold' }}>CART</h1>
+                        <ul style={{ listStyleType: 'none', padding: 0 }}>
+                            {foodname.map((item, index) => (
+                                <li key={index} style={{ marginBottom: '10px', borderBottom: '1px solid #ccc', paddingBottom: '10px', color: 'red' }}>
+                                    <h3 style={{ margin: 0 }}>{item.description}</h3>
+                                    <p style={{ margin: 0 }}>Total: ₹{item.price * item.quantity}</p>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <h1 style={{ marginTop: '20px', textAlign: 'center' }}>Total: ₹{calculateAndSetTotal()}</h1>
+
+                        {foodname.length > 0 ? (
+                            <button
+                                id='btn'
+                                style={{
+                                    backgroundColor: 'red',
+                                    color: 'white',
+                                    padding: '10px 20px',
+                                    borderRadius: '5px',
+                                    border: 'none',
+                                    fontSize: '16px',
+                                    fontWeight: 'bold',
+                                    cursor: 'pointer',
+                                    marginTop: '20px',
+                                    display: 'block',
+                                    margin: '0 auto',
+                                }}
+                                onClick={async () => {
+                                    try {
+                                        navigate('/confirmation');
+                                        const token = localStorage.getItem('token');
+                                        localStorage.setItem('foodname', JSON.stringify(foodname));
+
+                                        const response = await axios.get('https://restaurant-backend-2-mad1.onrender.com/sendmail', {
+                                            headers: {
+                                                Authorization: `Bearer ${token}`,
+                                            },
+                                        });
+
+                                        localStorage.setItem('otp', JSON.stringify(response.data));
+                                    } catch (error) {
+                                        console.error('Error:', error);
+                                    }
+                                }}
+                            >
+                                Confirm Order
+                            </button>
+                        ) : (
+                            <h1 style={{color:'red'}}>Cart is empty</h1>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
         </>
     );
 }

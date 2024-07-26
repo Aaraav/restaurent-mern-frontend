@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../UserContextProvider';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -9,12 +9,23 @@ export default function Payment() {
     const [cardHolder, setCardHolder] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
     const [cvv, setCvv] = useState('');
-    const { total, foodname } = useContext(UserContext);
+    const { total, settotal, foodname, setfoodname } = useContext(UserContext);
     const navigate = useNavigate();
+
+    // Retrieve foodname and total from localStorage on component mount
+    useEffect(() => {
+        const savedFoodname = JSON.parse(localStorage.getItem('foodname'));
+        const savedTotal = JSON.parse(localStorage.getItem('total'));
+        if (savedFoodname) {
+            setfoodname(savedFoodname);
+        }
+        if (savedTotal) {
+            settotal(savedTotal);
+        }
+    }, [setfoodname, settotal]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission here
         console.log({ cardNumber, cardHolder, expiryDate, cvv });
 
         alert('Thanks for ordering!');
@@ -97,7 +108,6 @@ export default function Payment() {
                                 backgroundColor: 'black',
                                 color: 'white',
                             }}
-                            
                         />
                     </div>
 
@@ -118,7 +128,6 @@ export default function Payment() {
                                 backgroundColor: 'black',
                                 color: 'white',
                             }}
-                            
                         />
                     </div>
 
@@ -141,7 +150,6 @@ export default function Payment() {
                                     color: 'white',
                                 }}
                                 placeholder="MM/YY"
-                                
                             />
                         </div>
 
@@ -162,7 +170,6 @@ export default function Payment() {
                                     backgroundColor: 'black',
                                     color: 'white',
                                 }}
-                                
                             />
                         </div>
                     </div>

@@ -4,7 +4,8 @@ import Header from './Header';
 
 export default function AllOrder() {
     const [orders, setOrders] = useState([]);
-
+//http://localhost:9000
+//https://restaurant-backend-2-mad1.onrender.com
     // Function to fetch all orders
     const fetchOrders = async () => {
         const token = localStorage.getItem('token');

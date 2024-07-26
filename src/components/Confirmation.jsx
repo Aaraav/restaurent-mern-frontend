@@ -32,13 +32,14 @@ export default function Confirmation() {
             <Header />
             <div
                 style={{
+                    minHeight: '100vh', // Ensures the container fills the viewport height
                     width: '100vw',
-                    height: '100vh',
-                    backgroundColor: 'black',
+                    backgroundColor: '#121212', // Darker background
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     flexDirection: 'column',
+                    padding: '20px', // Padding to ensure content is not touching the edges
                 }}
             >
                 {formVisible && (
@@ -48,10 +49,14 @@ export default function Confirmation() {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            gap: '10px',
-                            backgroundColor: '#1a1a1a', // Dark gray background
-                            padding: '20px',
-                            borderRadius: '10px',
+                            gap: '15px', // Increased gap for better spacing
+                            backgroundColor: '#1e1e1e', // Slightly lighter dark background
+                            padding: '30px', // More padding
+                            borderRadius: '15px', // More rounded corners
+                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)', // Box shadow for depth
+                            animation: 'fadeIn 1s', // Simple fade-in animation
+                            maxWidth: '400px', // Limit form width
+                            width: '100%', // Ensure the form takes full width up to the max-width
                         }}
                     >
                         <input
@@ -60,24 +65,31 @@ export default function Confirmation() {
                             onChange={(e) => setOtp(e.target.value)}
                             value={otp}
                             style={{
-                                padding: '10px',
+                                padding: '12px',
                                 borderRadius: '5px',
-                                border: '1px solid #f56565', // Red border
+                                border: '1px solid #E21837', // Red border
                                 backgroundColor: 'black',
                                 color: 'white',
-                                width: '200px',
+                                width: '100%', // Ensure input takes full width of the form
+                                transition: 'border-color 0.3s', // Smooth transition for border
                             }}
+                            onFocus={(e) => e.target.style.borderColor = '#ff7675'} // Change border color on focus
+                            onBlur={(e) => e.target.style.borderColor = '#f56565'} // Revert border color on blur
                         />
                         <button
                             type="submit"
                             style={{
-                                padding: '10px 20px',
-                                backgroundColor: '#f56565', // Red button
+                                padding: '12px 25px',
+                                backgroundColor: '#E21837', // Red button
                                 color: 'white',
                                 border: 'none',
                                 borderRadius: '5px',
                                 cursor: 'pointer',
+                                width: '100%', // Ensure button takes full width of the form
+                                transition: 'background-color 0.3s', // Smooth transition for background color
                             }}
+                            onMouseOver={(e) => e.target.style.backgroundColor = '#ff7675'} // Lighter red on hover
+                            onMouseOut={(e) => e.target.style.backgroundColor = '#f56565'} // Revert on mouse out
                         >
                             Submit
                         </button>
@@ -85,19 +97,23 @@ export default function Confirmation() {
                 )}
 
                 {orderConfirmed && (
-                    <div style={{ textAlign: 'center', color: 'white' }}>
+                    <div style={{ textAlign: 'center', color: 'white', animation: 'fadeIn 1s', maxWidth: '600px', width: '100%', padding: '20px', backgroundColor: '#1e1e1e', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)' }}>
                         <h1>Your order of {foodname.map((item) => item.description).join(', ')} is confirmed!</h1>
                         <button
                             onClick={() => navigate('/payment')}
                             style={{
-                                padding: '10px 20px',
-                                backgroundColor: '#f56565', // Red button
+                                padding: '12px 25px',
+                                backgroundColor: '#E21837', // Red button
                                 color: 'white',
                                 border: 'none',
                                 borderRadius: '5px',
                                 cursor: 'pointer',
-                                marginTop: '10px',
+                                marginTop: '15px', // Increased margin-top for spacing
+                                transition: 'background-color 0.3s', // Smooth transition for background color
+                                width: '100%', // Ensure button takes full width
                             }}
+                            onMouseOver={(e) => e.target.style.backgroundColor = '#ff7675'} // Lighter red on hover
+                            onMouseOut={(e) => e.target.style.backgroundColor = '#f56565'} // Revert on mouse out
                         >
                             Proceed to Payment
                         </button>
@@ -107,3 +123,17 @@ export default function Confirmation() {
         </>
     );
 }
+
+// CSS for animations (can be added to a CSS file or a <style> block)
+const styles = `
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+`;
+
+// Append the styles to the document head
+const styleSheet = document.createElement("style");
+styleSheet.type = "text/css";
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);

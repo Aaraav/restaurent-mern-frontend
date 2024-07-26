@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import './Uploadmenu.scss'
+import PendingOrders from './PendingOrders';
+import Header from './Header';
 export default function Uploadmenu() {
   const [file, setFile] = useState(null);
   const [aboutFood, setAboutFood] = useState('');
@@ -174,6 +176,7 @@ export default function Uploadmenu() {
 
   return (
     <div style={{ backgroundColor: 'black', color: 'white', padding: '20px', minHeight: '100vh' }}>
+      <Header/>
       <h1>Ordered Food Items</h1>
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
         <thead>
@@ -316,6 +319,7 @@ export default function Uploadmenu() {
 )}
 </div>
       </div>
+      <PendingOrders/>
     </div>
   );
 }

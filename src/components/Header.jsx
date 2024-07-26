@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.scss';
@@ -6,6 +6,7 @@ import './Header.scss';
 export default function Header() {
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
+    const [vis, setVis] = useState(window.innerWidth > 1000); // Initialize vis based on screen width
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,29 +51,34 @@ export default function Header() {
 
     return (
         <div>
-            <div className="restaurant">
-                <h2>UrbanGrove Eatery</h2>
-                <ul>
-                    <Link to="/" style={{ textDecoration: 'none' }}><li>Home</li></Link>
-                    <Link to="/menu" style={{ textDecoration: 'none' }}><li>Menu</li></Link>
-                    <Link to="/allorders" style={{ textDecoration: 'none' }}><li>Orders</li></Link>
-
-                    {username !== 'aar' && (
-                    <Link to='/contact' style={{ textDecoration: 'none' }}><li>Contact Us</li></Link>
-                )}
-                    {/* Conditionally render the "Uploadmenu" link based on the username */}
-                    {username === 'aar' && (
-                        <Link to="/uploadmenu" style={{ textDecoration: 'none' }}><li>Uploadmenu</li></Link>
+            <div>
+                <div className="restaurant">
+                    <h2>UrbanGrove Eatery</h2>
+                    {vis && (
+                        <ul>
+                            <Link to="/" style={{ textDecoration: 'none' }}><li>Home</li></Link>
+                            <Link to="/menu" style={{ textDecoration: 'none' }}><li>Menu</li></Link>
+                            <Link to="/allorders" style={{ textDecoration: 'none' }}><li>Orders</li></Link>
+                            {username !== 'aar' && (
+                                <Link to='/contact' style={{ textDecoration: 'none' }}><li>Contact Us</li></Link>
+                            )}
+                            {/* Conditionally render the "Uploadmenu" link based on the username */}
+                            {username === 'aar' && (
+                                <Link to="/uploadmenu" style={{ textDecoration: 'none' }}><li>Uploadmenu</li></Link>
+                            )}
+                            {username === 'aar' && (
+                                <Link to="/contact" style={{ textDecoration: 'none' }}><li>Contact</li></Link>
+                            )}
+                            <li>
+                                <button onClick={handleLogout}>Logout</button>
+                            </li>
+                        </ul>
                     )}
-                     {username === 'aar' && (
-                        <Link to="/list" style={{ textDecoration: 'none' }}><li>userslist</li></Link>
-                    )}
-                    
-                    <li>
-                        <button onClick={handleLogout}>Logout</button>
-                    </li>
-                </ul>
-                {data && <p>Welcome, <span>{data.username}</span></p>}
+                    <button  onClick={() => setVis(vi=>!vi)} id='toggle' className="nav-toggle-button" >
+                        Sections
+                    </button>
+                    {data && <p>Welcome, <span>{data.username}</span></p>}
+                </div>
             </div>
         </div>
     );

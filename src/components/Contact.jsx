@@ -9,7 +9,7 @@ export default function Contact() {
     const [chat, setChat] = useState('');
     const [messages, setMessages] = useState([]);
     const [sender, setSender] = useState('');
-
+// https://restaurant-backend-5-ncc3.onrender.com
     // Initialize socket connection in useEffect
     useEffect(() => {
         if (!socket) {
@@ -32,7 +32,16 @@ export default function Contact() {
                 ]);
 
                 setSender(sender);
+
+               
+
+                
             });
+            // socket.on('notification', ({ sender, receiver, message }) => {
+            //     console.log(`Received notification from ${sender} to ${receiver}: ${message}`);
+            //     console.log(`Sender: ${sender}, Receiver: ${receiver}`);
+            //     alert(`Received notification from ${sender} to ${receiver}: ${message}`);
+            //   });
         }
 
         return () => {
@@ -50,6 +59,11 @@ export default function Contact() {
 
             // Emit the chat event
             socket.emit('chat', {
+                chat,
+                sender: localStorage.getItem('username'),
+                receiver,
+            });
+            socket.emit('notification', {
                 chat,
                 sender: localStorage.getItem('username'),
                 receiver,
@@ -77,9 +91,22 @@ export default function Contact() {
                         value={chat}
                         placeholder="Write query"
                         onChange={(e) => setChat(e.target.value)}
+                        style={{color:'black'}}
                     />
                     {/* Submit button */}
-                    <button onClick={sendChat}>Submit</button>
+                    <button style={{
+                        
+                            backgroundColor: '#E21837',
+                            color: 'white',
+                            padding:'160x 20px',
+                            width:'100px',
+                            height:'30px',
+                            borderRadius: '30px',
+                            border: 'none',
+                            cursor: 'pointer',
+                            marginLeft:'10px',
+                            fontSize: '16px',
+                            zIndex: 1001,}} onClick={sendChat}>Submit</button>
                 </div>
                 
                 {/* Display messages */}
@@ -98,8 +125,8 @@ export default function Contact() {
                                     maxWidth: '70%',
                                     padding: '10px',
                                     borderRadius: '10px',
-                                    backgroundColor: message.isOutgoing ? '#DCF8C6' : '#E5E5EA',
-                                    color: '#000',
+                                    backgroundColor: message.isOutgoing ? 'white' : '#e21837',
+                                    color: message.isOutgoing ? '#000' : 'white'
                                 }}
                             >
                                 <strong>{message.isOutgoing ? 'You' : message.sender}:</strong>
