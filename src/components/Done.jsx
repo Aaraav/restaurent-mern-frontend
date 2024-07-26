@@ -146,7 +146,7 @@ export default function Done() {
             
             <h2 id='text2'>College friends relishing delightful moments over a feast.</h2>
 
-            <img id='img3' src='https://www.phocafe.co.uk/wp-content/uploads/2023/12/Screenshot-2023-12-27-at-15'/>
+            <img id='img3' src='https://www.phocafe.co.uk/wp-content/uploads/2023/05/Screenshot-2022-09-28-at-08.58.17.jpg'/>
 
 <h2 id="t2">Good For you!!</h2>
 <img id='img4' src='https://www.phocafe.co.uk/wp-content/uploads/2023/12/Screenshot-2023-12-27-at-15.16.33-800x800.png'/>
