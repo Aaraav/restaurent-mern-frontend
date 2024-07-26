@@ -1,4 +1,4 @@
-import React, { useEffect ,useState} from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import Header from './Header';
 import './Done.scss';
 import gsap from 'gsap';
@@ -11,8 +11,9 @@ gsap.registerPlugin(ScrollTrigger); // Register the ScrollTrigger plugin
 export default function Done() {
   const [notification, setNotification] = useState(null);
   let socket = null;
-  const navigate=useNavigate();
-  useEffect(() => {
+  const navigate = useNavigate();
+
+  useLayoutEffect(() => {
     const name = localStorage.getItem('username');
     if (!name) {
       navigate('/login');
@@ -32,7 +33,7 @@ export default function Done() {
       console.log('Socket disconnected!');
     });
 
-    socket.on('noti', ({ sender, receiver, chat,message }) => {
+    socket.on('noti', ({ sender, receiver, chat, message }) => {
       console.log(`Received notification from ${sender} to ${receiver}: ${message}`);
       console.log(`Sender: ${sender}, Receiver: ${receiver}`);
       alert(`Received notification from ${sender} to ${receiver}: ${chat}`);
@@ -45,7 +46,8 @@ export default function Done() {
       }
     };
   }, []);
-  useEffect(() => {
+
+  useLayoutEffect(() => {
     gsap.to('.page0', {
       opacity: 0,
       duration: 3,
@@ -123,8 +125,7 @@ export default function Done() {
 
   return (
     <>
-          <Header/>
-
+      <Header/> {/* This should re-render now */}
       <div className='page0'>
         <h2>Welcome to the world's best Restaurant!!!</h2>
       </div>
@@ -145,7 +146,7 @@ export default function Done() {
             
             <h2 id='text2'>College friends relishing delightful moments over a feast.</h2>
 
-            <img id='img3' src='https://www.phocafe.co.uk/wp-content/uploads/2023/12/Screenshot-2023-12-27-at-15.16.33-800x800.png'/>
+            <img id='img3' src='https://www.phocafe.co.uk/wp-content/uploads/2023/12/Screenshot-2023-12-27-at-15'/>
 
 <h2 id="t2">Good For you!!</h2>
 <img id='img4' src='https://www.phocafe.co.uk/wp-content/uploads/2023/12/Screenshot-2023-12-27-at-15.16.33-800x800.png'/>
