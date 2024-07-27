@@ -6,22 +6,25 @@ import { ScrollTrigger } from 'gsap/all'; // Import ScrollTrigger
 import Footer from './Footer';
 import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
+
 gsap.registerPlugin(ScrollTrigger); // Register the ScrollTrigger plugin
 
 export default function Done() {
   const [notification, setNotification] = useState(null);
-  let socket = null;
+  const [socket, setSocket] = useState(null); // Create a state variable for socket
   const navigate = useNavigate();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const name = localStorage.getItem('username');
-    if (!name) {
-      navigate('/login');
+   
+
+    if (!socket) {
+      const newSocket = io('https://restaurant-backend-5-ncc3.onrender.com', { transports: ['websocket'] });
+      setSocket(newSocket); // Update the socket state variable
     }
 
-    socket = io('https://restaurant-backend-5-ncc3.onrender.com', { transports: ['websocket'] });
+    if(socket){
 
-    console.log('useEffect: setting up socket connection...');
     socket.on('connect', () => {
       console.log('Socket connected!');
       socket.emit('register', { username: localStorage.getItem('username') });
@@ -39,13 +42,14 @@ export default function Done() {
       alert(`Received notification from ${sender} to ${receiver}: ${chat}`);
       setNotification({ sender, receiver, message });
     });
+  }
 
     return () => {
       if (socket) {
         socket.disconnect();
       }
     };
-  }, []);
+  }, [socket]);
 
   useLayoutEffect(() => {
     gsap.to('.page0', {

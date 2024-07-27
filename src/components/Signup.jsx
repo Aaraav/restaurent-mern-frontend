@@ -33,21 +33,26 @@ function Signup() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder='username'
+                id='inp'
             />
             <input
                 type='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder='email'
+                id='inp'
+
             />
             <input
                 type='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder='password'
+                id='inp'
+
             />
-            <button type='button' onClick={handleSubmit}>Submit</button> {/* Changed type to 'button' */}
-            <h3 style={{color:'white'}}>already have an account <span onClick={()=>navigate('/login')}>Login</span> </h3>
+            <button id='btnn' type='button' onClick={handleSubmit}>Submit</button> {/* Changed type to 'button' */}
+            <h3 style={{color:'white'}}>already have an account <span style={{color:'#FA7727'}} onClick={()=>navigate('/login')}>Login</span> </h3>
         </div>
     );
 }

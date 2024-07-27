@@ -76,7 +76,7 @@ export default function Menu() {
             <Header />
             <div>
                 <div className='image-container'>
-                    <button
+                    <button  id='cart-btn'
                         style={{
                             position: 'fixed',
                             top: '38px',

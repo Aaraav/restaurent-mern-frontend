@@ -15,7 +15,7 @@ export default function Login() {
         if(token){
             navigate('/'); // Navigate to / route on successful login
         }
-    })
+    },[navigate])
     const handleSubmit = async () => {
         setLoading(true); // Start loading
        
@@ -49,6 +49,7 @@ export default function Login() {
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder='username'
                     className='text-2xl'
+                    id='inp'
                 />
 
                 <input
@@ -56,17 +57,18 @@ export default function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder='password'
+                    id='inp'
                 />
 
                 {/* Show the loader while loading */}
                 {loading ? (
                     <div style={{position:'absolute', top:'20%',width:'100px'}}><Spinner/></div> // Customize the loader style in your CSS
                 ) : (
-                    <button type='submit' onClick={handleSubmit}>Submit</button>
+                    <button  id='btnn' type='submit' onClick={handleSubmit}>Submit</button>
                 )}
                 
                 <h3 style={{ color: 'white' }}>
-                    Haven't signed up yet? <span onClick={() => navigate('/signup')}>Sign Up</span>
+                    Haven't signed up yet? <span style={{color:'#FA7727'}} onClick={() => navigate('/signup')}>Sign Up</span>
                 </h3>
             </div>
         </div>

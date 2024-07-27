@@ -134,6 +134,9 @@
     /* Adjust font sizes and image sizes for larger screens */
     .page0 > h2 {
       font-size: 40px;
+      text-align: center;
+      width: 100vw;
+      left: 0%;
     }
     .page1 h1 {
       font-size: 80px;

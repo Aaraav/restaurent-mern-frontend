@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.scss';
@@ -9,32 +9,39 @@ export default function Header() {
     const [vis, setVis] = useState(window.innerWidth > 1000); // Initialize vis based on screen width
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    navigate('/login');
-                    return;
-                }
-                const response = await axios.get('https://restaurant-backend-2-mad1.onrender.com/user', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setData(response.data.user);
-                setLoading(false);
-                localStorage.setItem('email', response.data.user.email);
-                localStorage.setItem('username', response.data.user.username);
+    // useEffect(()=>{
+    //     const token = localStorage.getItem('token');
 
-                console.log(response.data);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-                setLoading(false);
-            }
-        };
+    //     if (!token) {
+    //         navigate('/login');
+    //         return;
+    //     }
+    // },[])
+
+    const fetchData = useCallback(async () => {
+        try {
+            const token = localStorage.getItem('token');
+           
+            const response = await axios.get('https://restaurant-backend-2-mad1.onrender.com/user', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setData(response.data.user);
+            setLoading(false);
+            localStorage.setItem('email', response.data.user.email);
+            localStorage.setItem('username', response.data.user.username);
+
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
         fetchData();
-    }, [navigate]);
+    }, []);
 
     const handleLogout = () => {
         localStorage.clear();
@@ -42,9 +49,9 @@ export default function Header() {
         alert('Successfully logged out');
     };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
 
     // Retrieve username from local storage
     const username = localStorage.getItem('username');
@@ -74,10 +81,12 @@ export default function Header() {
                             </li>
                         </ul>
                     )}
-                    <button  onClick={() => setVis(vi=>!vi)} id='toggle' className="nav-toggle-button" >
-                        Sections
-                    </button>
-                    {data && <p>Welcome, <span>{data.username}</span></p>}
+                    <div style={{ display: 'flex', alignItems: 'center', marginRight: '7%', width: '250px', height: '70px' }}>
+                        <button onClick={() => setVis(vi => !vi)} id='toggle' className="nav-toggle-button" >
+                            Sections
+                        </button>
+                        {data && <p style={{ marginLeft: '10px' }}>Welcome, <span>{data.username}</span></p>}
+                    </div>
                 </div>
             </div>
         </div>

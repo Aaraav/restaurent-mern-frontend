@@ -19,6 +19,7 @@ margin-top: 20px;
     font-size: 2.0rem;
     margin-top: 20px;
     text-transform: capitalize;
+    width: 200px;
 }
 
 .restaurant ul {
@@ -48,12 +49,15 @@ margin-top: 20px;
     color: white;
 }
 #toggle{
-    display: none;
+    color: black;
 }
 
 .restaurant p {
-    margin-right: 7%;
-    margin-top: 20px;
+    width: 150px;
+
+}
+#data{
+    margin-left: 30px;
 
 }
 
@@ -64,16 +68,17 @@ margin-top: 20px;
 
 
 
-@media (max-width: 500px) {
+@media (max-width: 700px) {
     #toggle{
-        display: block;
-        position: absolute;
-        left: 52%;
-        top:5%;
+        margin-right: 2%;
+        color: white;
+        margin-left: 20%;
+        
     }
     .restaurant {
         width: 100vw;
         display: flex;
+        margin-top: 10px;
     }
     .restaurant img {
         display: block;
@@ -88,8 +93,9 @@ margin-top: 20px;
     }
     .restaurant ul {
         display: block;
+        height: 100vh;
         
-        margin-left: 70%;
-        margin-top: 0%;
+        margin-left: 0%;
+        margin-top: 0px;
     }
 }
