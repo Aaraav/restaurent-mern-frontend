@@ -14,6 +14,14 @@ export default function Done() {
   const [socket, setSocket] = useState(null); // Create a state variable for socket
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    const token=localStorage.getItem('token');
+    if(!token){
+      navigate('/login');
+    }
+
+  },[])
+
   useEffect(() => {
     const name = localStorage.getItem('username');
    
