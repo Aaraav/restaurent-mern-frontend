@@ -145,9 +145,11 @@ export default function Done() {
 
         
         <h1>UrbanGrove<br />Eatery</h1>
+                      {/* <Footer/> */}
+
       </div>
-      <div className='page2'>
-        <img id='main-img'  src='https://www.phocafe.co.uk/wp-content/uploads/2018/07/Menu-Background.jpg' alt='menu' />
+      {/* <div className='page2'>
+        <img id='main-img'  src='https://wallpapers.com/images/hd/food-4k-1pf6px6ryqfjtnyr.jpg' alt='menu' />
 
         <div className='page2-content'>
             <img id='img1' src='https://www.phocafe.co.uk/wp-content/uploads/2023/12/Screenshot-2023-12-27-at-15.16.33-800x800.png'/>
@@ -168,8 +170,8 @@ export default function Done() {
 
 
         </div>
-        <Footer/>
-      </div>
+      </div> */}
+
       
     </>
   );
